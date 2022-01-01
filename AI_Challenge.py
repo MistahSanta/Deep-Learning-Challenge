@@ -67,12 +67,12 @@ model.add(Conv2D(64, (3,3), input_shape = X_Train.shape[1:]  ) )
 model.add(Activation("relu"))
 model.add(MaxPooling2D(pool_size = (2,2) ) )
 
-#model.add(Conv2D(64, (3,3)   ) )
-#model.add(Activation("relu"))
-#model.add(MaxPooling2D(pool_size = (2,2) ) )
+model.add(Conv2D(64, (3,3)   ) )
+model.add(Activation("relu"))
+model.add(MaxPooling2D(pool_size = (2,2) ) )
 
 model.add(Flatten())
-#model.add(Dense(64))
+model.add(Dense(64))
 
 model.add(Dense(10))
 model.add(Activation('softmax'))
@@ -87,27 +87,9 @@ learning_rate = ReduceLROnPlateau(monitor = 'val_accuracy', patience = 2, verbos
 #train the model 
 epochs = 3
 batch_size = 120
-#starts overfitting
 model.fit(X_Train, Y_Train, epochs = epochs, batch_size = batch_size, validation_data = (X_val,Y_val), callbacks = [learning_rate])
 
-model.summary()
-
-array = [] 
-array = np.array(df_Test)
-
-#Output the predictions into a vector
-prediction = model.predict(array)
-
-n = len(prediction) - 1
-
-for x in range(n):
-
-  prediction[n] = np.argmax(prediction[n])
-
-print(prediction)
-
 #output prediction as a .csv file 
-#understand why 
 with open('prediction.csv', 'w') as f:
   image_id = 0 
   for prediction in predictions:
